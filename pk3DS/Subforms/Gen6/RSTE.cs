@@ -30,17 +30,17 @@ namespace pk3DS
             InitializeComponent();
             // String Fetching
             #region Combo Box Arrays
-            trpk_pkm =    new[] { CB_Pokemon_1_Pokemon, CB_Pokemon_2_Pokemon, CB_Pokemon_3_Pokemon, CB_Pokemon_4_Pokemon, CB_Pokemon_5_Pokemon, CB_Pokemon_6_Pokemon, };
-            trpk_lvl =    new[] { CB_Pokemon_1_Level,   CB_Pokemon_2_Level,   CB_Pokemon_3_Level,   CB_Pokemon_4_Level,   CB_Pokemon_5_Level,   CB_Pokemon_6_Level,   };
-            trpk_item =   new[] { CB_Pokemon_1_Item,    CB_Pokemon_2_Item,    CB_Pokemon_3_Item,    CB_Pokemon_4_Item,    CB_Pokemon_5_Item,    CB_Pokemon_6_Item,    };
-            trpk_abil =   new[] { CB_Pokemon_1_Ability, CB_Pokemon_2_Ability, CB_Pokemon_3_Ability, CB_Pokemon_4_Ability, CB_Pokemon_5_Ability, CB_Pokemon_6_Ability, };
-            trpk_m1 =     new[] { CB_Pokemon_1_Move_1,  CB_Pokemon_2_Move_1,  CB_Pokemon_3_Move_1,  CB_Pokemon_4_Move_1,  CB_Pokemon_5_Move_1,  CB_Pokemon_6_Move_1,  };
-            trpk_m2 =     new[] { CB_Pokemon_1_Move_2,  CB_Pokemon_2_Move_2,  CB_Pokemon_3_Move_2,  CB_Pokemon_4_Move_2,  CB_Pokemon_5_Move_2,  CB_Pokemon_6_Move_2,  };
-            trpk_m3 =     new[] { CB_Pokemon_1_Move_3,  CB_Pokemon_2_Move_3,  CB_Pokemon_3_Move_3,  CB_Pokemon_4_Move_3,  CB_Pokemon_5_Move_3,  CB_Pokemon_6_Move_3,  };
-            trpk_m4 =     new[] { CB_Pokemon_1_Move_4,  CB_Pokemon_2_Move_4,  CB_Pokemon_3_Move_4,  CB_Pokemon_4_Move_4,  CB_Pokemon_5_Move_4,  CB_Pokemon_6_Move_4,  };
-            trpk_IV =     new[] { CB_Pokemon_1_IVs,     CB_Pokemon_2_IVs,     CB_Pokemon_3_IVs,     CB_Pokemon_4_IVs,     CB_Pokemon_5_IVs,     CB_Pokemon_6_IVs,     };
-            trpk_form =   new[] { CB_Pokemon_1_Form,    CB_Pokemon_2_Form,    CB_Pokemon_3_Form,    CB_Pokemon_4_Form,    CB_Pokemon_5_Form,    CB_Pokemon_6_Form,    };
-            trpk_gender = new[] { CB_Pokemon_1_Gender,  CB_Pokemon_2_Gender,  CB_Pokemon_3_Gender,  CB_Pokemon_4_Gender,  CB_Pokemon_5_Gender,  CB_Pokemon_6_Gender,  };
+            trpk_pkm = new[] { CB_Pokemon_1_Pokemon, CB_Pokemon_2_Pokemon, CB_Pokemon_3_Pokemon, CB_Pokemon_4_Pokemon, CB_Pokemon_5_Pokemon, CB_Pokemon_6_Pokemon, };
+            trpk_lvl = new[] { CB_Pokemon_1_Level, CB_Pokemon_2_Level, CB_Pokemon_3_Level, CB_Pokemon_4_Level, CB_Pokemon_5_Level, CB_Pokemon_6_Level, };
+            trpk_item = new[] { CB_Pokemon_1_Item, CB_Pokemon_2_Item, CB_Pokemon_3_Item, CB_Pokemon_4_Item, CB_Pokemon_5_Item, CB_Pokemon_6_Item, };
+            trpk_abil = new[] { CB_Pokemon_1_Ability, CB_Pokemon_2_Ability, CB_Pokemon_3_Ability, CB_Pokemon_4_Ability, CB_Pokemon_5_Ability, CB_Pokemon_6_Ability, };
+            trpk_m1 = new[] { CB_Pokemon_1_Move_1, CB_Pokemon_2_Move_1, CB_Pokemon_3_Move_1, CB_Pokemon_4_Move_1, CB_Pokemon_5_Move_1, CB_Pokemon_6_Move_1, };
+            trpk_m2 = new[] { CB_Pokemon_1_Move_2, CB_Pokemon_2_Move_2, CB_Pokemon_3_Move_2, CB_Pokemon_4_Move_2, CB_Pokemon_5_Move_2, CB_Pokemon_6_Move_2, };
+            trpk_m3 = new[] { CB_Pokemon_1_Move_3, CB_Pokemon_2_Move_3, CB_Pokemon_3_Move_3, CB_Pokemon_4_Move_3, CB_Pokemon_5_Move_3, CB_Pokemon_6_Move_3, };
+            trpk_m4 = new[] { CB_Pokemon_1_Move_4, CB_Pokemon_2_Move_4, CB_Pokemon_3_Move_4, CB_Pokemon_4_Move_4, CB_Pokemon_5_Move_4, CB_Pokemon_6_Move_4, };
+            trpk_IV = new[] { CB_Pokemon_1_IVs, CB_Pokemon_2_IVs, CB_Pokemon_3_IVs, CB_Pokemon_4_IVs, CB_Pokemon_5_IVs, CB_Pokemon_6_IVs, };
+            trpk_form = new[] { CB_Pokemon_1_Form, CB_Pokemon_2_Form, CB_Pokemon_3_Form, CB_Pokemon_4_Form, CB_Pokemon_5_Form, CB_Pokemon_6_Form, };
+            trpk_gender = new[] { CB_Pokemon_1_Gender, CB_Pokemon_2_Gender, CB_Pokemon_3_Gender, CB_Pokemon_4_Gender, CB_Pokemon_5_Gender, CB_Pokemon_6_Gender, };
             #endregion
             string[] species = Main.Config.GetText(TextName.SpeciesNames);
             AltForms = Main.Config.Personal.GetFormList(species, Main.Config.MaxSpeciesID);
@@ -164,7 +164,15 @@ namespace pk3DS
         {
             string toret = "======" + Environment.NewLine;
 
-            toret += CB_TrainerID.SelectedIndex + " - " + CB_Trainer_Class.Text.Substring(0, CB_Trainer_Class.Text.Length - 6) + " " + CB_TrainerID.Text.Substring(0, CB_TrainerID.Text.Length - 6) + Environment.NewLine;
+            string trainerName = CB_TrainerID.Text.Substring(0, CB_TrainerID.Text.Length - 6);
+            string trainerNumberID = CB_TrainerID.Text.Substring(CB_TrainerID.Text.Length - 3);
+
+            string trainerClass = CB_Trainer_Class.Text.Substring(0, CB_Trainer_Class.Text.Length - 6);
+            string trainerClassID = CB_Trainer_Class.Text.Substring(CB_Trainer_Class.Text.Length - 3);
+
+            toret += "Internal Name: " + trainerNumberID + "-" + trainerName + Environment.NewLine;
+            toret += "Internal Class: " + trainerClassID + "-" + trainerClass + Environment.NewLine;
+            toret += "In-Game Name: " + trainerClass + " " + trainerName + Environment.NewLine;
             toret += "======" + Environment.NewLine;
             int pkm = CB_numPokemon.SelectedIndex;
             toret += "Pokemon: " + pkm + Environment.NewLine;
@@ -206,7 +214,7 @@ namespace pk3DS
                 string tdata = GetTRSummary();
                 toret += tdata;
             }
-            SaveFileDialog sfd = new SaveFileDialog {FileName = "Battles.txt", Filter = "Text File|*.txt"};
+            SaveFileDialog sfd = new SaveFileDialog { FileName = "Battles.txt", Filter = "Text File|*.txt" };
 
             SystemSounds.Asterisk.Play();
             if (sfd.ShowDialog() == DialogResult.OK)
@@ -239,6 +247,11 @@ namespace pk3DS
             byte[] trp = trpoke[index];
             tr = new TrainerData6(trd, trp, Main.Config.ORAS);
 
+            LoadTrainerData(tr);
+        }
+
+        private void LoadTrainerData(TrainerData6 tr)
+        {
             // Load Trainer Data
             CB_Trainer_Class.SelectedIndex = tr.Class;
             checkBox_Item.Checked = tr.Item;
@@ -255,7 +268,7 @@ namespace pk3DS
             CB_Prize.SelectedIndex = tr.Prize;
 
             // Load Pokemon Data
-            for (int i = 0; i < tr.NumPokemon; i++)
+            for (int i = 0; i < tr.Team.Length; i++)
             {
                 trpk_IV[i].SelectedIndex = tr.Team[i].IVs;
                 trpk_lvl[i].SelectedIndex = tr.Team[i].Level;
@@ -286,6 +299,7 @@ namespace pk3DS
 
         private void WriteFile()
         {
+
             // Set Trainer Data
             tr.Moves = checkBox_Moves.Checked;
             tr.Item = checkBox_Item.Checked;
@@ -449,6 +463,27 @@ namespace pk3DS
         private static int[] megaEvos;
         public static int[] rIgnoreClass, rEnsureMEvo;
         public static int rDMGCount, rSTABCount;
+
+        private void B_Import_Click(object sender, EventArgs e)
+        {
+            using var fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                string path = fbd.SelectedPath;
+                try
+                {
+                    if (!Directory.Exists(path)) // File
+                        ImportTrainerFile(path);
+                    else // Directory
+                        ImportTrainerDirectory(path);
+                }
+                catch (Exception ex)
+                {
+                    WinFormsUtil.Error($"Failed during Import of Trainers in -- {path}", "Reason: " + ex.Message);
+                }
+            }
+        }
+
         private int[] mEvoTypes;
         private static int[] rModelRestricted;
         public static int[] rFinalEvo;
@@ -494,7 +529,8 @@ namespace pk3DS
                 if (mEvoTypes.Length < 13 && rTypeTheme)
                 {
                     WinFormsUtil.Alert("There are insufficient Types with at least one mega evolution to Guarantee story Mega Evos while keeping Type theming.",
-                    "Re-Randomize Personal or don't choose both options."); return; }
+                    "Re-Randomize Personal or don't choose both options."); return;
+                }
                 GymE4Types.AddRange(mEvoTypes);
             }
             else
@@ -541,7 +577,7 @@ namespace pk3DS
             ushort[] itemvals = Main.Config.ORAS ? Legal.Pouch_Items_AO : Legal.Pouch_Items_XY;
             itemvals = itemvals.Concat(Legal.Pouch_Berry_XY).ToArray();
 
-            string[] ImportantClasses = {"GYM", "ELITE", "CHAMPION"};
+            string[] ImportantClasses = { "GYM", "ELITE", "CHAMPION" };
             for (int i = 1; i < CB_TrainerID.Items.Count; i++)
             {
                 // Trainer Type/Mega Evo
@@ -726,7 +762,7 @@ namespace pk3DS
 
             if (rClass && rModelRestricted.Contains(t.Class) && !rIgnoreClass.Contains(t.Class)) // shuffle classes with 3D models
             {
-                int randClass() => (int) (Rand() % rModelRestricted.Length);
+                int randClass() => (int)(Rand() % rModelRestricted.Length);
                 t.Class = rModelRestricted[randClass()];
             }
             else
@@ -934,7 +970,7 @@ namespace pk3DS
             if (rTags[trainer].Length != 0)
                 return TagTypes[rTags[trainer]];
             if (!rEnsureMEvo.Contains(trainer))
-                return (int)(Rand()%types.Length);
+                return (int)(Rand() % types.Length);
             return mEvoTypes[Rand() % mEvoTypes.Length];
         }
 
@@ -961,7 +997,414 @@ namespace pk3DS
         private void GotoParty(object sender, EventArgs e)
         {
             // When sprite is clicked, jump to that Pokémon.
-            tabControl1.SelectedIndex = 1 + Array.IndexOf(new[]{PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6,}, sender as PictureBox);
+            tabControl1.SelectedIndex = 1 + Array.IndexOf(new[] { PB_Team1, PB_Team2, PB_Team3, PB_Team4, PB_Team5, PB_Team6, }, sender as PictureBox);
+        }
+
+        //
+        // File Import Utilities
+        //
+
+        LogUtil importLog;
+
+        int FindNumericID(string idString)
+        {
+            int firstDashIndex = idString.IndexOf('-');
+
+            if (firstDashIndex > -1)
+            {
+                string trainerNumber = idString.Substring(0, firstDashIndex);
+                return int.Parse(trainerNumber);
+            }
+
+            return -1;
+        }
+
+        struct PokePasteTitleLine
+        {
+            public string mSpecies;
+            public string mGender;
+            public string mItem;
+
+            public PokePasteTitleLine(string species, string gender, string item) : this()
+            {
+                mSpecies = species;
+                mGender = gender;
+                mItem = item;
+            }
+        }
+        PokePasteTitleLine ParsePokePasteTitleLine(string currLine)
+        {
+            //Nickname (Species) (Gender) @ Item
+            //Species (Gender) @ Item
+            int atIndex = currLine.IndexOf('@');
+
+            string pokemonSpecies = "";
+            string pokemonGender = "";
+            string pokemonItem = "";
+
+            if (atIndex > -1)
+            {
+                pokemonItem = currLine.Substring(atIndex + 1).Trim();
+                currLine = currLine.Substring(0, atIndex);
+            }
+
+            int leftParenthesesIndex1 = currLine.IndexOf('(');
+
+            string leftDataString = currLine.Substring(0, (leftParenthesesIndex1 < 0) ? currLine.Length : leftParenthesesIndex1).Trim();
+
+            if (leftParenthesesIndex1 >= 0)
+            {
+                //Yea there's parentheses we'll figure it out later
+                int rightParenthesesIndex1 = currLine.IndexOf(')');
+
+                string middleDataString = currLine.Substring(leftParenthesesIndex1 + 1, rightParenthesesIndex1 - (leftParenthesesIndex1 + 1)).Trim();
+
+                if (leftParenthesesIndex1 + 2 != rightParenthesesIndex1)
+                {
+                    //This is the species, ignore leftDataString
+                    pokemonSpecies = middleDataString;
+
+                    //Check for gender
+                    int leftParenthesesIndex2 = currLine.LastIndexOf('(');
+                    if (leftParenthesesIndex2 >= 0 && leftParenthesesIndex2 != leftParenthesesIndex1)
+                    {
+                        //Gender found, disappointingly binary
+                        pokemonGender = currLine.Substring(leftParenthesesIndex2 + 1, leftParenthesesIndex2 + 2).Trim();
+                    }
+                }
+                //This is specifying gender, leftDataString is species, there is no nickname
+                else
+                {
+                    pokemonSpecies = leftDataString;
+                    pokemonGender = middleDataString;
+                }
+            }
+            else
+            {
+                //No Parentheses this is just the pokemon species
+                pokemonSpecies = leftDataString;
+            }
+
+            return new PokePasteTitleLine(pokemonSpecies, pokemonGender, pokemonItem);
+        }
+
+        TrainerData6.Pokemon ParsePokePastePokemon(ref string[] aPokemonLines, ref int currIndex)
+        {
+            TrainerData6.Pokemon newPokemon = new TrainerData6.Pokemon(new byte[100], false, false);
+
+            //Set PokePaste defaults
+            newPokemon.Level = 100;
+            //Shiny, if pokemon has 1 ability only, Happiness max 255, Neutral Nature
+
+            bool parsedTitleLine = false;
+            int moveNum = 0;
+
+            for(; currIndex < aPokemonLines.Length; ++currIndex)
+            {
+                string currLine = aPokemonLines[currIndex];
+                if(currLine == "")
+                {
+                    if (parsedTitleLine) break; //This pokemon has finished parsing
+                    continue;
+                }
+
+                int colonIndex = aPokemonLines[currIndex].IndexOf(':');
+                int dashIndex = aPokemonLines[currIndex].IndexOf('-');
+
+                if (!parsedTitleLine)
+                {
+                    PokePasteTitleLine pokePasteTitleLine = ParsePokePasteTitleLine(currLine);
+
+                    //Check for Pokemon Form, this can't be automatically handled
+                    int speciesDashIndex = pokePasteTitleLine.mSpecies.IndexOf('-');
+
+                    if(speciesDashIndex >= 0)
+                    {
+                        importLog.WriteManual("During PokePaste, found Pokemon with a Form \"" + pokePasteTitleLine.mSpecies + "\" while reading the following line", aPokemonLines[currIndex], "");
+
+                        pokePasteTitleLine.mSpecies = pokePasteTitleLine.mSpecies.Substring(0, speciesDashIndex);
+                    }
+
+                    //Check Species
+                    int speciesIndex = trpk_pkm[0].Items.IndexOf(pokePasteTitleLine.mSpecies);
+
+                    if(speciesIndex < 0)
+                    {
+                        speciesIndex = 0;
+
+                        importLog.WriteWarning("During PokePaste, could not find a matching Pokemon name for \"" + pokePasteTitleLine.mSpecies + "\" while reading the following line", aPokemonLines[currIndex], "");
+                    }
+
+                    //Check Gender
+                    int genderIndex;
+
+                    switch(pokePasteTitleLine.mGender)
+                    {
+                        case "F": genderIndex = 2; break;
+                        case "M": genderIndex = 1; break;
+                        default: genderIndex = 0; break;
+                    }
+
+                    //Check Held Item
+                    int itemIndex = trpk_item[0].Items.IndexOf(pokePasteTitleLine.mItem);
+
+                    if(itemIndex < 0)
+                    {
+                        itemIndex = 0;
+
+                        importLog.WriteWarning("During PokePaste, could not find a matching Item name for \"" + pokePasteTitleLine.mItem + "\" while reading the following line", aPokemonLines[currIndex], "");
+                    }
+
+                    newPokemon.Species = (ushort)speciesIndex;
+                    newPokemon.Gender = genderIndex;
+                    newPokemon.Item = (ushort)itemIndex;
+
+                    parsedTitleLine = true;
+                }
+                else if(colonIndex >= 0)
+                {
+                    //Modifiers
+                    string commandString = aPokemonLines[currIndex].Substring(0, colonIndex).ToLower().Trim();
+                    string dataString = aPokemonLines[currIndex].Substring(colonIndex + 1).Trim();
+
+                    switch(commandString)
+                    {
+                        case "level":
+                            newPokemon.Level = (ushort)int.Parse(dataString);
+                            break;
+                        case "ability":
+                            //This is the actual index, then we need to convert this to local index
+                            int abilityIndex = Array.IndexOf(abilitylist, dataString);
+                            if(abilityIndex < 0)
+                            {
+                                abilityIndex = 0;
+
+                                importLog.WriteWarning("During PokePaste, could not find a matching Ability name for \"" + dataString + "\" while reading the following line", aPokemonLines[currIndex], "");
+                            }
+
+                            int localAbilityIndex = Array.IndexOf(Main.SpeciesStat[newPokemon.Species].Abilities, abilityIndex);
+
+                            //Have to account for the empty first slot
+                            newPokemon.Ability = (localAbilityIndex < 0) ? 0 : localAbilityIndex + 1;
+                            break;
+                    }
+
+                    //Nature is irrelevant so we can ignore that
+                }
+                else if(dashIndex >= 0)
+                {
+                    if(moveNum < 0 || moveNum > newPokemon.Moves.Length)
+                    {
+                        break;
+                    }
+
+                    //Moves
+                    string dataString = aPokemonLines[currIndex].Substring(dashIndex + 1).Trim();
+
+                    int moveIndex = CB_Pokemon_1_Move_1.Items.IndexOf(dataString);
+
+                    if(moveIndex < 0)
+                    {
+                        moveIndex = 0;
+
+                        importLog.WriteWarning("During PokePaste, could not find a matching Move name for \"" + dataString + "\" while reading the following line", aPokemonLines[currIndex], "");
+                    }
+
+                    newPokemon.Moves[moveNum] = (ushort)moveIndex;
+
+                    moveNum++;
+                }
+                else if(moveNum > 0)
+                {
+                    break;
+                }
+            }
+
+            return newPokemon;
+        }
+
+        TrainerData6 UpdateFromTrainerDataFile(string path, string fileName)
+        {
+            TrainerData6 trainerData = tr; //Start with the current trainer data for things that are unchanged
+
+            string[] trainerDataLines = File.ReadAllLines(path);
+
+            int pokemonCommandIndex = -1;
+
+            //Set Defaults
+            trainerData.AI = 255;
+            trainerData.Item = true;
+            trainerData.Moves = true;
+
+            for (int i = 0; i < trainerDataLines.Length && (pokemonCommandIndex < 0); i++)
+            {
+                int colonIndex = trainerDataLines[i].IndexOf(':');
+
+                if (colonIndex < 0) continue;
+
+                string commandString = trainerDataLines[i].Substring(0, colonIndex).ToLower().Trim();
+                string dataString = trainerDataLines[i].Substring(colonIndex + 1).Trim();
+
+                switch (commandString)
+                {
+                    case "credit": break; //gratz on credit
+
+                    case "rename":
+                    case "rename to":
+                    case "name":
+                        importLog.WriteManual("Found Name command (Trainer should be renamed to \"" + dataString + "\") while reading the following line", trainerDataLines[i], "");
+                        break; //names aren't actually stored here so that sucks
+
+                    case "reclass":
+                    case "reclass to":
+                    case "class":
+                        int classID = FindNumericID(dataString);
+
+                        if (classID < 0)
+                        {
+                            importLog.WriteWarning("Found Class command but could not find Class ID in \"" + dataString + "\" while reading the following line", trainerDataLines[i], "Make sure your file's Class command is formatted as \"Class: ###-ClassName\"", "");
+                            continue;
+                        }
+                        else if(classID >= CB_Trainer_Class.Items.Count)
+                        {
+                            importLog.WriteWarning("Found Invalid Class ID " + classID + " while reading the following line", trainerDataLines[i], "");
+                            continue;
+                        }
+
+                        trainerData.Class = classID;
+                        break;
+                    case "item 1":
+                    case "item 2":
+                    case "item 3":
+                    case "item 4":
+                        int itemSlotIndex = commandString.Last() - '0';
+                        int itemSelectIndex = CB_Item_1.Items.IndexOf(dataString);
+
+                        if(itemSelectIndex < 0)
+                        {
+                            importLog.WriteWarning("Found Item command but could not find matching item for \"" + dataString + "\" while reading the following line", trainerDataLines[i], "");
+                            continue;
+                        }
+
+                        trainerData.Items[itemSlotIndex - 1] = (ushort)itemSelectIndex;
+                        break;
+                    case "pokemon":
+                        trainerData.NumPokemon = (byte)int.Parse(dataString);
+                        pokemonCommandIndex = i;
+                        break;
+                }
+            }
+
+            //It's PokePaste time
+            if (pokemonCommandIndex >= 0)
+            {
+                int lineIndex = pokemonCommandIndex + 1;
+                int pokeNum = 0;
+
+                trainerData.Team = Array.Empty<TrainerData6.Pokemon>();
+                Array.Resize(ref trainerData.Team, trainerData.NumPokemon);
+
+                while (lineIndex < trainerDataLines.Length && pokeNum < trainerData.NumPokemon)
+                {
+                    try
+                    {
+                        TrainerData6.Pokemon newPokemon = ParsePokePastePokemon(ref trainerDataLines, ref lineIndex);
+
+                        tr.Team[pokeNum] = newPokemon;
+
+                        tr.Team[pokeNum].IVs = 31; //Make sure they're perfect since that's how we want it
+
+                        pokeNum++;
+                    }
+                    catch (Exception ex)
+                    {
+                        importLog.WriteError("Failed to Parse PokePaste starting at Pokemon #" + (pokeNum + 1), ex.Message);
+                        throw new ApplicationException();
+                    }
+                }
+            }
+            else
+            {
+                importLog.WriteError("Could not find a required Pokemon command to indicate beginning of PokePaste section.", "Make sure to include the command \"Pokemon: [Number of Pokemon]\" before the beginning of your PokePaste");
+                throw new ApplicationException();
+            }
+
+            return trainerData;
+        }
+
+        private bool ImportTrainerFile(string path)
+        {
+            importLog.Write("[Import] Trainer File: " + path);
+
+            importLog.PushIndentationLevel();
+
+            if (File.Exists(path))
+            {
+                string fileName = Path.GetFileName(path);
+
+                try
+                {
+                    int trainerIndex = FindNumericID(fileName);
+
+                    if (trainerIndex < 0)
+                    {
+                        importLog.WriteError("Trainer ID not found for " + fileName, "Make sure your filename is formatted as \"###-TrainerName.txt\"");
+                        throw new ApplicationException();
+                    }
+                    else if (trainerIndex >= CB_TrainerID.Items.Count)
+                    {
+                        importLog.WriteError("Found Invalid Trainer ID " + trainerIndex + " in " + fileName);
+                        throw new ApplicationException();
+                    }
+
+                    CB_TrainerID.SelectedIndex = trainerIndex;
+
+                    ReadFile();
+
+                    tr = UpdateFromTrainerDataFile(path, fileName);
+
+                    LoadTrainerData(tr);
+
+                    importLog.PopIndentationLevel();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    //We inform the user beforehand just due to not being able to use several lines for the indentation in LogUtil.WriteError()
+                }
+            }
+
+            importLog.PopIndentationLevel();
+
+            return false;
+        }
+
+        private void ImportTrainerDirectory(string path)
+        {
+            string[] allTrainerFiles = Directory.GetFiles(path, "*.txt", SearchOption.AllDirectories);
+
+            importLog = new LogUtil(path + Path.DirectorySeparatorChar + "import.log");
+
+            importLog.Write("[Begin] Importing " + allTrainerFiles.Length + " Trainer Files!", "", "How to navigate this file:", "Ctrl + F and search for the following important tags");
+            importLog.Write("[Manual]: An entry in this file was found that can't be automatically parsed", "[WARNING]: An entry was unable to be recognized or was formatted incorrectly, but this file could continue processing.", "[ERROR]: A significant problem prevented further processing of this file.", "");
+
+            foreach (string file in allTrainerFiles)
+            {
+                importLog.Write("");
+                if(ImportTrainerFile(file))
+                {
+                    importLog.Write("[SUCCESS] Finished importing Trainer File: " + file);
+                }
+                else
+                {
+                    importLog.Write("[FAILURE] Error prevented importing Trainer File: " + file);
+                }
+            }
+
+            importLog.Write("", "[End] Finished importing all Trainer Files!");
+
+            WinFormsUtil.Information("Importing complete!", "A log file was created at " + path + Path.DirectorySeparatorChar + "import.log with more information.");
         }
     }
 }

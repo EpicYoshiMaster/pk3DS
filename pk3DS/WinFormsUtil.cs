@@ -373,6 +373,13 @@ namespace pk3DS
             return MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
+        public static DialogResult Information(params string[] lines)
+        {
+            System.Media.SystemSounds.Asterisk.Play();
+            string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
+            return MessageBox.Show(msg, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         public static DialogResult Prompt(MessageBoxButtons btn, params string[] lines)
         {
             System.Media.SystemSounds.Question.Play();
