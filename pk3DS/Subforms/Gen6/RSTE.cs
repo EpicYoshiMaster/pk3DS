@@ -237,20 +237,28 @@ namespace pk3DS
         private void ReadFile()
         {
             if (start) return;
-            index = CB_TrainerID.SelectedIndex;
             loading = true;
 
-            if (index == 0) return;
+            tr = LoadTrainerData(CB_TrainerID.SelectedIndex);
 
+            if (tr == null) return;
             tabControl1.Enabled = true;
-            byte[] trd = trdata[index];
-            byte[] trp = trpoke[index];
-            tr = new TrainerData6(trd, trp, Main.Config.ORAS);
 
-            LoadTrainerData(tr);
+            PushTrainerDataToUI(tr);
         }
 
-        private void LoadTrainerData(TrainerData6 tr)
+        private TrainerData6 LoadTrainerData(int newIndex)
+        {
+            index = newIndex;
+            if(index == 0) return null;
+
+            byte[] trd = trdata[index];
+            byte[] trp = trpoke[index];
+
+            return new TrainerData6(trd, trp, Main.Config.ORAS);
+        }
+
+        private void PushTrainerDataToUI(TrainerData6 tr)
         {
             // Load Trainer Data
             CB_Trainer_Class.SelectedIndex = tr.Class;
@@ -299,6 +307,7 @@ namespace pk3DS
 
         private void WriteFile()
         {
+            if (tr == null) return;
 
             // Set Trainer Data
             tr.Moves = checkBox_Moves.Checked;
@@ -335,8 +344,13 @@ namespace pk3DS
                 tr.Team[i].Moves[2] = (ushort)trpk_m3[i].SelectedIndex;
                 tr.Team[i].Moves[3] = (ushort)trpk_m4[i].SelectedIndex;
             }
-            trdata[index] = tr.Write();
-            trpoke[index] = tr.WriteTeam();
+            WriteTrainerDataToFile(ref tr);
+        }
+
+        private void WriteTrainerDataToFile(ref TrainerData6 trainerData)
+        {
+            trdata[index] = trainerData.Write();
+            trpoke[index] = trainerData.WriteTeam();
         }
 
         // Image Displays
@@ -450,7 +464,6 @@ namespace pk3DS
 
             CB_TrainerID.SelectedIndex = 1;
             start = false;
-            ReadFile();
         }
 
         public static bool rPKM, rSmart, rLevel, rMove, rMetronome, rNoMove, rForceHighPower, rAbility, rDiffAI,
@@ -1223,9 +1236,9 @@ namespace pk3DS
             return newPokemon;
         }
 
-        TrainerData6 UpdateFromTrainerDataFile(string path, string fileName)
+        TrainerData6 UpdateFromTrainerDataFile(ref TrainerData6 oldTrainerData, string path, string fileName)
         {
-            TrainerData6 trainerData = tr; //Start with the current trainer data for things that are unchanged
+            TrainerData6 trainerData = oldTrainerData; //Start with the current trainer data for things that are unchanged
 
             string[] trainerDataLines = File.ReadAllLines(path);
 
@@ -1310,9 +1323,9 @@ namespace pk3DS
                     {
                         TrainerData6.Pokemon newPokemon = ParsePokePastePokemon(ref trainerDataLines, ref lineIndex);
 
-                        tr.Team[pokeNum] = newPokemon;
+                        trainerData.Team[pokeNum] = newPokemon;
 
-                        tr.Team[pokeNum].IVs = 31; //Make sure they're perfect since that's how we want it
+                        trainerData.Team[pokeNum].IVs = 31; //Make sure they're perfect since that's how we want it
 
                         pokeNum++;
                     }
@@ -1357,19 +1370,17 @@ namespace pk3DS
                         throw new ApplicationException();
                     }
 
-                    CB_TrainerID.SelectedIndex = trainerIndex;
+                    TrainerData6 currentTrainerData = LoadTrainerData(trainerIndex);
 
-                    ReadFile();
+                    currentTrainerData = UpdateFromTrainerDataFile(ref currentTrainerData, path, fileName);
 
-                    tr = UpdateFromTrainerDataFile(path, fileName);
-
-                    LoadTrainerData(tr);
+                    WriteTrainerDataToFile(ref currentTrainerData);
 
                     importLog.PopIndentationLevel();
 
                     return true;
                 }
-                catch (Exception ex)
+                catch
                 {
                     //We inform the user beforehand just due to not being able to use several lines for the indentation in LogUtil.WriteError()
                 }
