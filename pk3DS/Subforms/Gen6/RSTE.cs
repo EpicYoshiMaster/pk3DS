@@ -1018,6 +1018,7 @@ namespace pk3DS
         //
 
         LogUtil importLog;
+        LogUtil nameLog;
 
         int FindNumericID(string idString)
         {
@@ -1265,7 +1266,13 @@ namespace pk3DS
                     case "rename":
                     case "rename to":
                     case "name":
-                        importLog.WriteManual("Found Name command (Trainer should be renamed to \"" + dataString + "\") while reading the following line", trainerDataLines[i], "");
+                        //importLog.WriteManual("Found Name command (Trainer should be renamed to \"" + dataString + "\") while reading the following line", trainerDataLines[i], "");
+                        string trainerItemText = CB_TrainerID.Items[index].ToString();
+
+                        string trainerName = trainerItemText.Substring(0, trainerItemText.Length - 6);
+                        string trainerNumberID = trainerItemText.Substring(trainerItemText.Length - 3);
+                        nameLog.Write(trainerNumberID + "-" + trainerName + " => " + dataString);
+
                         break; //names aren't actually stored here so that sucks
 
                     case "reclass":
@@ -1396,6 +1403,7 @@ namespace pk3DS
             string[] allTrainerFiles = Directory.GetFiles(path, "*.txt", SearchOption.AllDirectories);
 
             importLog = new LogUtil(path + Path.DirectorySeparatorChar + "import.log");
+            nameLog = new LogUtil(path + Path.DirectorySeparatorChar + "names.log");
 
             importLog.Write("[Begin] Importing " + allTrainerFiles.Length + " Trainer Files!", "", "How to navigate this file:", "Ctrl + F and search for the following important tags");
             importLog.Write("[Manual]: An entry in this file was found that can't be automatically parsed", "[WARNING]: An entry was unable to be recognized or was formatted incorrectly, but this file could continue processing.", "[ERROR]: A significant problem prevented further processing of this file.", "");

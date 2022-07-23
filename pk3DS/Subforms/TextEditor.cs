@@ -308,5 +308,61 @@ namespace pk3DS
 
             WinFormsUtil.Alert("Strings randomized!");
         }
+
+        private void B_Import_Names_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog NamesDialog = new OpenFileDialog { Filter = "Name Log File|names.log" };
+            DialogResult odr = NamesDialog.ShowDialog();
+            if (odr != DialogResult.OK) return;
+            string path = NamesDialog.FileName;
+
+            ImportNamesTextFile(path);
+
+            // Reload the form with the new data.
+            ChangeEntry(null, null);
+            WinFormsUtil.Alert("Imported Text from Input Path:", path);
+        }
+        private int FindNumericID(string idString)
+        {
+            int firstDashIndex = idString.IndexOf('-');
+
+            if (firstDashIndex > -1)
+            {
+                string trainerNumber = idString.Substring(0, firstDashIndex).Trim();
+                return int.Parse(trainerNumber);
+            }
+
+            return -1;
+        }
+
+        private string FindTrainerName(string idString)
+        {
+            int arrowIndex = idString.IndexOf('>');
+
+            return (arrowIndex > -1) ? idString.Substring(arrowIndex + 1).Trim() : "";
+        }
+
+        private void ImportNamesTextFile(string fileName)
+        {
+            string[] fileText = File.ReadAllLines(fileName);
+
+            // Loop through all files
+            for (int i = 0; i < fileText.Length; i++)
+            {
+                string line = fileText[i];
+
+                try
+                {
+                    int numericID = FindNumericID(line);
+                    string newTrainerName = FindTrainerName(line);
+
+                    files[22][numericID] = newTrainerName;
+                }
+                catch(Exception e)
+                {
+                    WinFormsUtil.Error($" Failed to import line \"" + line + "\":", e.ToString());
+                }
+            }
+        }
     }
 }
